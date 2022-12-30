@@ -7,6 +7,7 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
@@ -27,6 +28,7 @@ func main() {
 	//setup fiber
 	app := fiber.New(configuration.NewFiberConfiguration())
 	app.Use(recover.New())
+	app.Use(cors.New())
 
 	//routing
 	productController.Route(app)
