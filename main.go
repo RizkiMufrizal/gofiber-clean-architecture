@@ -18,12 +18,18 @@ func main() {
 
 	//repository
 	productRepository := repository.NewProductRepositoryImpl(database)
+	transactionRepository := repository.NewTransactionRepositoryImpl(database)
+	transactionDetailRepository := repository.NewTransactionDetailRepositoryImpl(database)
 
 	//service
 	productService := service.NewProductServiceImpl(&productRepository)
+	transactionService := service.NewTransactionServiceImpl(&transactionRepository)
+	transactionDetailService := service.NewTransactionDetailServiceImpl(&transactionDetailRepository)
 
 	//controller
 	productController := controller.NewProductController(&productService)
+	transactionController := controller.NewTransactionController(&transactionService)
+	transactionDetailController := controller.NewTransactionDetailController(&transactionDetailService)
 
 	//setup fiber
 	app := fiber.New(configuration.NewFiberConfiguration())
@@ -32,6 +38,8 @@ func main() {
 
 	//routing
 	productController.Route(app)
+	transactionController.Route(app)
+	transactionDetailController.Route(app)
 
 	//start app
 	err := app.Listen(config.Get("SERVER.PORT"))

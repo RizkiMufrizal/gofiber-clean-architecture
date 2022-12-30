@@ -28,6 +28,9 @@ func (transactionService *transactionServiceImpl) Create(ctx context.Context, tr
 			TransactionId: uuidGenerate,
 			ProductId:     detail.ProductId,
 			Id:            uuid.New(),
+			SubTotalPrice: detail.SubTotalPrice,
+			Price:         detail.Price,
+			Quantity:      detail.Quantity,
 		})
 	}
 

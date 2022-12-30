@@ -17,7 +17,7 @@ type transactionDetailRepositoryImpl struct {
 
 func (transactionDetailRepository *transactionDetailRepositoryImpl) FindById(ctx context.Context, id string) (entity.TransactionDetail, error) {
 	var transactionDetail entity.TransactionDetail
-	result := transactionDetailRepository.DB.WithContext(ctx).Where("id = ?", id).First(&transactionDetail)
+	result := transactionDetailRepository.DB.WithContext(ctx).Where("transaction_detail_id = ?", id).First(&transactionDetail)
 	if result.RowsAffected == 0 {
 		return entity.TransactionDetail{}, errors.New("transaction Detail Not Found")
 	}
