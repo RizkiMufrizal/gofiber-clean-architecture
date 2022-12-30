@@ -14,7 +14,7 @@ This project was created to learn golang with go fiber framework
 - [ ] Json Validation
 - [ ] JWT Security
 - [ ] Database migration
-- [ ] Docker Support
+- [x] Docker Support
 - [ ] Open API / Swagger
 - [ ] Integration Test
 - [ ] Http Client
