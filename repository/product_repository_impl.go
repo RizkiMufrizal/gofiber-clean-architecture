@@ -32,7 +32,7 @@ func (repository *productRepositoryImpl) Delete(ctx context.Context, product ent
 	repository.DB.WithContext(ctx).Where("id = ?", product.Id).Delete(&product)
 }
 
-func (repository *productRepositoryImpl) FindById(ctx context.Context, id string) (entity.Product, error) {
+func (repository *productRepositoryImpl) FindById(ctx context.Context, id int) (entity.Product, error) {
 	var product entity.Product
 	result := repository.DB.WithContext(ctx).Where("id = ?", id).First(&product)
 	if result.RowsAffected == 0 {
