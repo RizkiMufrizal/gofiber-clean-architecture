@@ -10,7 +10,7 @@ This project was created to learn golang with go fiber framework
 ## Feature
 
 - [x] Database ORM
-- [ ] Database Relational
+- [x] Database Relational
 - [ ] Json Validation
 - [ ] JWT Security
 - [ ] Database migration
