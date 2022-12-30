@@ -25,18 +25,19 @@ func (repository *productRepositoryImpl) Insert(ctx context.Context, product ent
 }
 
 func (repository *productRepositoryImpl) Update(ctx context.Context, product entity.Product) entity.Product {
-	err := repository.DB.WithContext(ctx).Where("product_id = ?", product.Id).Updates(&product).Error
+	err := repository.DB.WithContext(ctx).Where("id = ?", product.Id).Updates(&product).Error
 	exception.PanicLogging(err)
 	return product
 }
 
 func (repository *productRepositoryImpl) Delete(ctx context.Context, product entity.Product) {
-	repository.DB.WithContext(ctx).Where("product_id = ?", product.Id).Delete(&product)
+	err := repository.DB.WithContext(ctx).Where("id = ?", product.Id).Delete(&product)
+	exception.PanicLogging(err)
 }
 
 func (repository *productRepositoryImpl) FindById(ctx context.Context, id string) (entity.Product, error) {
 	var product entity.Product
-	result := repository.DB.WithContext(ctx).Unscoped().Where("product_id = ?", id).First(&product)
+	result := repository.DB.WithContext(ctx).Unscoped().Where("id = ?", id).First(&product)
 	if result.RowsAffected == 0 {
 		return entity.Product{}, errors.New("product Not Found")
 	}
