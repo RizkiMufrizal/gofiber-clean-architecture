@@ -5,7 +5,6 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
 	"github.com/gofiber/fiber/v2"
-	"strconv"
 )
 
 type ProductController struct {
@@ -39,8 +38,8 @@ func (controller ProductController) Create(c *fiber.Ctx) error {
 
 func (controller ProductController) Update(c *fiber.Ctx) error {
 	var request model.ProductCreateOrUpdateModel
-	id, err := strconv.Atoi(c.Params("id"))
-	err = c.BodyParser(&request)
+	id := c.Params("id")
+	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
 
 	response := controller.ProductService.Update(c.Context(), request, id)
@@ -52,8 +51,7 @@ func (controller ProductController) Update(c *fiber.Ctx) error {
 }
 
 func (controller ProductController) Delete(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
-	exception.PanicLogging(err)
+	id := c.Params("id")
 
 	controller.ProductService.Delete(c.Context(), id)
 	return c.JSON(model.GeneralResponse{
@@ -63,8 +61,7 @@ func (controller ProductController) Delete(c *fiber.Ctx) error {
 }
 
 func (controller ProductController) FindById(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
-	exception.PanicLogging(err)
+	id := c.Params("id")
 
 	result := controller.ProductService.FindById(c.Context(), id)
 	return c.JSON(model.GeneralResponse{

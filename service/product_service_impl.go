@@ -6,6 +6,7 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
+	"github.com/google/uuid"
 )
 
 func NewProductServiceImpl(productRepository *repository.ProductRepository) ProductService {
@@ -26,9 +27,9 @@ func (service *productServiceImpl) Create(ctx context.Context, productModel mode
 	return productModel
 }
 
-func (service *productServiceImpl) Update(ctx context.Context, productModel model.ProductCreateOrUpdateModel, id int) model.ProductCreateOrUpdateModel {
+func (service *productServiceImpl) Update(ctx context.Context, productModel model.ProductCreateOrUpdateModel, id string) model.ProductCreateOrUpdateModel {
 	product := entity.Product{
-		Id:       uint8(id),
+		Id:       uuid.MustParse(id),
 		Name:     productModel.Name,
 		Price:    productModel.Price,
 		Quantity: productModel.Quantity,
@@ -37,17 +38,17 @@ func (service *productServiceImpl) Update(ctx context.Context, productModel mode
 	return productModel
 }
 
-func (service *productServiceImpl) Delete(ctx context.Context, id int) {
+func (service *productServiceImpl) Delete(ctx context.Context, id string) {
 	product, err := service.ProductRepository.FindById(ctx, id)
 	exception.PanicLogging(err)
 	service.ProductRepository.Delete(ctx, product)
 }
 
-func (service *productServiceImpl) FindById(ctx context.Context, id int) model.ProductModel {
+func (service *productServiceImpl) FindById(ctx context.Context, id string) model.ProductModel {
 	product, err := service.ProductRepository.FindById(ctx, id)
 	exception.PanicLogging(err)
 	return model.ProductModel{
-		Id:       product.Id,
+		Id:       product.Id.String(),
 		Name:     product.Name,
 		Price:    product.Price,
 		Quantity: product.Quantity,
@@ -58,7 +59,7 @@ func (service *productServiceImpl) FindAll(ctx context.Context) (responses []mod
 	products := service.ProductRepository.FindAl(ctx)
 	for _, product := range products {
 		responses = append(responses, model.ProductModel{
-			Id:       product.Id,
+			Id:       product.Id.String(),
 			Name:     product.Name,
 			Price:    product.Price,
 			Quantity: product.Quantity,

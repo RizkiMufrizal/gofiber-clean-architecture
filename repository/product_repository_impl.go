@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/entity"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -17,24 +18,25 @@ type productRepositoryImpl struct {
 }
 
 func (repository *productRepositoryImpl) Insert(ctx context.Context, product entity.Product) entity.Product {
+	product.Id = uuid.New()
 	err := repository.DB.WithContext(ctx).Create(&product).Error
 	exception.PanicLogging(err)
 	return product
 }
 
 func (repository *productRepositoryImpl) Update(ctx context.Context, product entity.Product) entity.Product {
-	err := repository.DB.WithContext(ctx).Where("id = ?", product.Id).Updates(&product).Error
+	err := repository.DB.WithContext(ctx).Where("product_id = ?", product.Id).Updates(&product).Error
 	exception.PanicLogging(err)
 	return product
 }
 
 func (repository *productRepositoryImpl) Delete(ctx context.Context, product entity.Product) {
-	repository.DB.WithContext(ctx).Where("id = ?", product.Id).Delete(&product)
+	repository.DB.WithContext(ctx).Where("product_id = ?", product.Id).Delete(&product)
 }
 
-func (repository *productRepositoryImpl) FindById(ctx context.Context, id int) (entity.Product, error) {
+func (repository *productRepositoryImpl) FindById(ctx context.Context, id string) (entity.Product, error) {
 	var product entity.Product
-	result := repository.DB.WithContext(ctx).Unscoped().Where("id = ?", id).First(&product)
+	result := repository.DB.WithContext(ctx).Unscoped().Where("product_id = ?", id).First(&product)
 	if result.RowsAffected == 0 {
 		return entity.Product{}, errors.New("product Not Found")
 	}

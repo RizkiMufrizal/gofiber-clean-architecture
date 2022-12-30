@@ -48,6 +48,8 @@ func NewDatabase(config Config) *gorm.DB {
 
 	//autoMigrate
 	err = db.AutoMigrate(&entity.Product{})
+	err = db.AutoMigrate(&entity.Transaction{})
+	err = db.AutoMigrate(&entity.TransactionDetail{})
 	exception.PanicLogging(err)
 	return db
 }
