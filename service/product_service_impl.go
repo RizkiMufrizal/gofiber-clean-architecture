@@ -64,5 +64,8 @@ func (service *productServiceImpl) FindAll(ctx context.Context) (responses []mod
 			Quantity: product.Quantity,
 		})
 	}
+	if len(products) == 0 {
+		return []model.ProductModel{}
+	}
 	return responses
 }

@@ -5,7 +5,10 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"log"
 	"math/rand"
+	"os"
 	"strconv"
 	"time"
 )
@@ -21,7 +24,19 @@ func NewDatabase(config Config) *gorm.DB {
 	maxPollLifeTime, err := strconv.Atoi(config.Get("DATASOURCE_POOL_LIFE_TIME"))
 	exception.PanicLogging(err)
 
-	db, err := gorm.Open(mysql.Open(username+":"+password+"@tcp("+host+":"+port+")/"+dbName+"?parseTime=true"), &gorm.Config{})
+	loggerDb := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags),
+		logger.Config{
+			SlowThreshold:             time.Second,
+			LogLevel:                  logger.Info,
+			IgnoreRecordNotFoundError: true,
+			Colorful:                  true,
+		},
+	)
+
+	db, err := gorm.Open(mysql.Open(username+":"+password+"@tcp("+host+":"+port+")/"+dbName+"?parseTime=true"), &gorm.Config{
+		Logger: loggerDb,
+	})
 	exception.PanicLogging(err)
 
 	sqlDB, err := db.DB()
