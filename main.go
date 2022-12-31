@@ -23,6 +23,7 @@ import (
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host localhost:9999
 // @BasePath /
+// @schemes http https
 func main() {
 	//setup configuration
 	config := configuration.New()

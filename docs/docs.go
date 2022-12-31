@@ -433,7 +433,7 @@ var SwaggerInfo = &swag.Spec{
 	Version:          "1.0.0",
 	Host:             "localhost:9999",
 	BasePath:         "/",
-	Schemes:          []string{},
+	Schemes:          []string{"http", "https"},
 	Title:            "Go Fiber Clean Architecture",
 	Description:      "Baseline project using Go Fiber",
 	InfoInstanceName: "swagger",

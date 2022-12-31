@@ -277,4 +277,7 @@ paths:
       summary: get one exists transaction
       tags:
       - Transaction
+schemes:
+- http
+- https
 swagger: "2.0"
