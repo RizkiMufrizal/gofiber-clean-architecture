@@ -6,6 +6,7 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/validation"
 	"github.com/google/uuid"
 )
 
@@ -18,6 +19,7 @@ type productServiceImpl struct {
 }
 
 func (service *productServiceImpl) Create(ctx context.Context, productModel model.ProductCreateOrUpdateModel) model.ProductCreateOrUpdateModel {
+	validation.Validate(productModel)
 	product := entity.Product{
 		Name:     productModel.Name,
 		Price:    productModel.Price,
@@ -28,6 +30,7 @@ func (service *productServiceImpl) Create(ctx context.Context, productModel mode
 }
 
 func (service *productServiceImpl) Update(ctx context.Context, productModel model.ProductCreateOrUpdateModel, id string) model.ProductCreateOrUpdateModel {
+	validation.Validate(productModel)
 	product := entity.Product{
 		Id:       uuid.MustParse(id),
 		Name:     productModel.Name,
@@ -40,13 +43,21 @@ func (service *productServiceImpl) Update(ctx context.Context, productModel mode
 
 func (service *productServiceImpl) Delete(ctx context.Context, id string) {
 	product, err := service.ProductRepository.FindById(ctx, id)
-	exception.PanicLogging(err)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
 	service.ProductRepository.Delete(ctx, product)
 }
 
 func (service *productServiceImpl) FindById(ctx context.Context, id string) model.ProductModel {
 	product, err := service.ProductRepository.FindById(ctx, id)
-	exception.PanicLogging(err)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
 	return model.ProductModel{
 		Id:       product.Id.String(),
 		Name:     product.Name,

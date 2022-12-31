@@ -23,7 +23,7 @@ func (controller TransactionController) Route(app *fiber.App) {
 }
 
 func (controller TransactionController) Create(c *fiber.Ctx) error {
-	var request model.TransactionModel
+	var request model.TransactionCreateUpdateModel
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
 

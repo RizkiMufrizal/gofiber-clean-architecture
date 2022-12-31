@@ -6,6 +6,7 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/validation"
 	"github.com/google/uuid"
 )
 
@@ -17,7 +18,8 @@ type transactionServiceImpl struct {
 	repository.TransactionRepository
 }
 
-func (transactionService *transactionServiceImpl) Create(ctx context.Context, transactionModel model.TransactionModel) model.TransactionModel {
+func (transactionService *transactionServiceImpl) Create(ctx context.Context, transactionModel model.TransactionCreateUpdateModel) model.TransactionCreateUpdateModel {
+	validation.Validate(transactionModel)
 	uuidGenerate := uuid.New()
 	var transactionDetails []entity.TransactionDetail
 	var totalPrice int64 = 0
@@ -46,13 +48,21 @@ func (transactionService *transactionServiceImpl) Create(ctx context.Context, tr
 
 func (transactionService *transactionServiceImpl) Delete(ctx context.Context, id string) {
 	transaction, err := transactionService.TransactionRepository.FindById(ctx, id)
-	exception.PanicLogging(err)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
 	transactionService.TransactionRepository.Delete(ctx, transaction)
 }
 
 func (transactionService *transactionServiceImpl) FindById(ctx context.Context, id string) model.TransactionModel {
 	transaction, err := transactionService.TransactionRepository.FindById(ctx, id)
-	exception.PanicLogging(err)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
 	var transactionDetails []model.TransactionDetailModel
 	for _, detail := range transaction.TransactionDetails {
 		transactionDetails = append(transactionDetails, model.TransactionDetailModel{

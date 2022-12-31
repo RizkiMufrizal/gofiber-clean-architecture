@@ -17,7 +17,11 @@ type transactionDetailServiceImpl struct {
 
 func (transactionDetailService *transactionDetailServiceImpl) FindById(ctx context.Context, id string) model.TransactionDetailModel {
 	transactionDetail, err := transactionDetailService.TransactionDetailRepository.FindById(ctx, id)
-	exception.PanicLogging(err)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
 	return model.TransactionDetailModel{
 		Id:            transactionDetail.Id.String(),
 		SubTotalPrice: transactionDetail.SubTotalPrice,
