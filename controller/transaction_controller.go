@@ -22,6 +22,15 @@ func (controller TransactionController) Route(app *fiber.App) {
 	app.Get("/v1/api/transaction", controller.FindAll)
 }
 
+// Create func create transaction.
+// @Description create transaction.
+// @Summary create transaction
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Param request body model.TransactionCreateUpdateModel true "Request Body"
+// @Success 200 {object} model.GeneralResponse
+// @Router /v1/api/transaction [post]
 func (controller TransactionController) Create(c *fiber.Ctx) error {
 	var request model.TransactionCreateUpdateModel
 	err := c.BodyParser(&request)
@@ -35,6 +44,15 @@ func (controller TransactionController) Create(c *fiber.Ctx) error {
 	})
 }
 
+// Delete func delete one exists transaction.
+// @Description delete one exists transaction.
+// @Summary delete one exists transaction
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Param id path string true "Transaction Id"
+// @Success 200 {object} model.GeneralResponse
+// @Router /v1/api/transaction/{id} [delete]
 func (controller TransactionController) Delete(c *fiber.Ctx) error {
 	id := c.Params("id")
 
@@ -45,6 +63,15 @@ func (controller TransactionController) Delete(c *fiber.Ctx) error {
 	})
 }
 
+// FindById func gets one exists transaction.
+// @Description Get one exists transaction.
+// @Summary get one exists transaction
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Param id path string true "Transaction Id"
+// @Success 200 {object} model.GeneralResponse
+// @Router /v1/api/transaction/{id} [get]
 func (controller TransactionController) FindById(c *fiber.Ctx) error {
 	id := c.Params("id")
 
@@ -56,6 +83,14 @@ func (controller TransactionController) FindById(c *fiber.Ctx) error {
 	})
 }
 
+// FindAll func gets all exists transaction.
+// @Description Get all exists transaction.
+// @Summary get all exists transaction
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.GeneralResponse
+// @Router /v1/api/transaction [get]
 func (controller TransactionController) FindAll(c *fiber.Ctx) error {
 	result := controller.TransactionService.FindAll(c.Context())
 	return c.JSON(model.GeneralResponse{

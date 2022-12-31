@@ -1,0 +1,280 @@
+basePath: /
+definitions:
+  model.GeneralResponse:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  model.ProductCreateOrUpdateModel:
+    properties:
+      name:
+        type: string
+      price:
+        type: integer
+      quantity:
+        type: integer
+    required:
+    - name
+    - price
+    - quantity
+    type: object
+  model.ProductModel:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      price:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  model.TransactionCreateUpdateModel:
+    properties:
+      id:
+        type: string
+      total_price:
+        type: integer
+      transaction_details:
+        items:
+          $ref: '#/definitions/model.TransactionDetailCreateUpdateModel'
+        type: array
+    type: object
+  model.TransactionDetailCreateUpdateModel:
+    properties:
+      id:
+        type: string
+      price:
+        type: integer
+      product:
+        $ref: '#/definitions/model.ProductModel'
+      product_id:
+        type: string
+      quantity:
+        type: integer
+      sub_total_price:
+        type: integer
+    required:
+    - price
+    - product_id
+    - quantity
+    - sub_total_price
+    type: object
+host: localhost:9999
+info:
+  contact:
+    email: fiber@swagger.io
+    name: API Support
+  description: Baseline project using Go Fiber
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Go Fiber Clean Architecture
+  version: 1.0.0
+paths:
+  /v1/api/product:
+    get:
+      consumes:
+      - application/json
+      description: Get all exists products.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: get all exists products
+      tags:
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: create product.
+      parameters:
+      - description: Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ProductCreateOrUpdateModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: create product
+      tags:
+      - Product
+  /v1/api/product/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete one exists product.
+      parameters:
+      - description: Product Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: delete one exists product
+      tags:
+      - Product
+    get:
+      consumes:
+      - application/json
+      description: Get one exists product.
+      parameters:
+      - description: Product Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: get one exists product
+      tags:
+      - Product
+    put:
+      consumes:
+      - application/json
+      description: update one exists product.
+      parameters:
+      - description: Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ProductCreateOrUpdateModel'
+      - description: Product Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: update one exists product
+      tags:
+      - Product
+  /v1/api/transaction:
+    get:
+      consumes:
+      - application/json
+      description: Get all exists transaction.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: get all exists transaction
+      tags:
+      - Transaction
+    post:
+      consumes:
+      - application/json
+      description: create transaction.
+      parameters:
+      - description: Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.TransactionCreateUpdateModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: create transaction
+      tags:
+      - Transaction
+  /v1/api/transaction-detail/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get one exists transaction detail.
+      parameters:
+      - description: Transaction Detail Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: get one exists transaction detail
+      tags:
+      - Transaction Detail
+  /v1/api/transaction/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete one exists transaction.
+      parameters:
+      - description: Transaction Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: delete one exists transaction
+      tags:
+      - Transaction
+    get:
+      consumes:
+      - application/json
+      description: Get one exists transaction.
+      parameters:
+      - description: Transaction Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: get one exists transaction
+      tags:
+      - Transaction
+swagger: "2.0"
