@@ -24,6 +24,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/api/authentication": {
+            "post": {
+                "description": "authenticate user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authenticate user"
+                ],
+                "summary": "authenticate user",
+                "parameters": [
+                    {
+                        "description": "Request Body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GeneralResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/api/product": {
             "get": {
                 "description": "Get all exists products.",
@@ -422,6 +456,17 @@ const docTemplate = `{
                 },
                 "sub_total_price": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.UserModel": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         }

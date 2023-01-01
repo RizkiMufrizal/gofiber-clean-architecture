@@ -22,7 +22,9 @@ require (
 	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gofiber/fiber/v2 v2.40.1 // indirect
+	github.com/gofiber/jwt/v3 v3.3.4 // indirect
 	github.com/gofiber/swagger v0.1.8 // indirect
+	github.com/golang-jwt/jwt/v4 v4.4.3 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect

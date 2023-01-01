@@ -63,6 +63,13 @@ definitions:
     - quantity
     - sub_total_price
     type: object
+  model.UserModel:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
 host: localhost:9999
 info:
   contact:
@@ -76,6 +83,28 @@ info:
   title: Go Fiber Clean Architecture
   version: 1.0.0
 paths:
+  /v1/api/authentication:
+    post:
+      consumes:
+      - application/json
+      description: authenticate user.
+      parameters:
+      - description: Request Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GeneralResponse'
+      summary: authenticate user
+      tags:
+      - Authenticate user
   /v1/api/product:
     get:
       consumes:

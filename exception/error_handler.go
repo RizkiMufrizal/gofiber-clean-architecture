@@ -30,6 +30,15 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 		})
 	}
 
+	_, unauthorizedError := err.(UnauthorizedError)
+	if unauthorizedError {
+		return ctx.JSON(model.GeneralResponse{
+			Code:    401,
+			Message: "Unauthorized",
+			Data:    err.Error(),
+		})
+	}
+
 	return ctx.JSON(model.GeneralResponse{
 		Code:    500,
 		Message: "General Error",

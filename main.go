@@ -33,16 +33,19 @@ func main() {
 	productRepository := repository.NewProductRepositoryImpl(database)
 	transactionRepository := repository.NewTransactionRepositoryImpl(database)
 	transactionDetailRepository := repository.NewTransactionDetailRepositoryImpl(database)
+	userRepository := repository.NewUserRepositoryImpl(database)
 
 	//service
 	productService := service.NewProductServiceImpl(&productRepository)
 	transactionService := service.NewTransactionServiceImpl(&transactionRepository)
 	transactionDetailService := service.NewTransactionDetailServiceImpl(&transactionDetailRepository)
+	userService := service.NewUserServiceImpl(&userRepository)
 
 	//controller
 	productController := controller.NewProductController(&productService)
 	transactionController := controller.NewTransactionController(&transactionService)
 	transactionDetailController := controller.NewTransactionDetailController(&transactionDetailService)
+	userController := controller.NewUserController(&userService)
 
 	//setup fiber
 	app := fiber.New(configuration.NewFiberConfiguration())
@@ -53,6 +56,7 @@ func main() {
 	productController.Route(app)
 	transactionController.Route(app)
 	transactionDetailController.Route(app)
+	userController.Route(app)
 
 	//swagger
 	app.Get("/swagger/*", swagger.HandlerDefault)

@@ -12,7 +12,7 @@ This project was created to learn golang with go fiber framework
 - [x] Database ORM
 - [x] Database Relational
 - [x] Json Validation
-- [ ] JWT Security
+- [x] JWT Security
 - [ ] Database migration
 - [x] Docker Support
 - [x] Open API / Swagger

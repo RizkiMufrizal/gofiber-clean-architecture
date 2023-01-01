@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/middleware"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
 	"github.com/gofiber/fiber/v2"
@@ -16,10 +17,10 @@ func NewTransactionController(transactionService *service.TransactionService) *T
 }
 
 func (controller TransactionController) Route(app *fiber.App) {
-	app.Post("/v1/api/transaction", controller.Create)
-	app.Delete("/v1/api/transaction/:id", controller.Delete)
-	app.Get("/v1/api/transaction/:id", controller.FindById)
-	app.Get("/v1/api/transaction", controller.FindAll)
+	app.Post("/v1/api/transaction", middleware.AuthenticateJWT("ROLE_USER"), controller.Create)
+	app.Delete("/v1/api/transaction/:id", middleware.AuthenticateJWT("ROLE_USER"), controller.Delete)
+	app.Get("/v1/api/transaction/:id", middleware.AuthenticateJWT("ROLE_USER"), controller.FindById)
+	app.Get("/v1/api/transaction", middleware.AuthenticateJWT("ROLE_USER"), controller.FindAll)
 }
 
 // Create func create transaction.
