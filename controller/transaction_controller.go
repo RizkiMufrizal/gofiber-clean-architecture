@@ -31,6 +31,7 @@ func (controller TransactionController) Route(app *fiber.App) {
 // @Produce json
 // @Param request body model.TransactionCreateUpdateModel true "Request Body"
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/transaction [post]
 func (controller TransactionController) Create(c *fiber.Ctx) error {
 	var request model.TransactionCreateUpdateModel
@@ -53,6 +54,7 @@ func (controller TransactionController) Create(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Transaction Id"
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/transaction/{id} [delete]
 func (controller TransactionController) Delete(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -72,6 +74,7 @@ func (controller TransactionController) Delete(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Transaction Id"
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/transaction/{id} [get]
 func (controller TransactionController) FindById(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -91,6 +94,7 @@ func (controller TransactionController) FindById(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/transaction [get]
 func (controller TransactionController) FindAll(c *fiber.Ctx) error {
 	result := controller.TransactionService.FindAll(c.Context())

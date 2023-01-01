@@ -24,6 +24,10 @@ import (
 // @host localhost:9999
 // @BasePath /
 // @schemes http https
+// @securityDefinitions.apikey JWT
+// @in header
+// @name Authorization
+// @description Authorization For JWT
 func main() {
 	//setup configuration
 	config := configuration.New()

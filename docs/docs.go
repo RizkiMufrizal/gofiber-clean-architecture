@@ -60,6 +60,11 @@ const docTemplate = `{
         },
         "/v1/api/product": {
             "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "Get all exists products.",
                 "consumes": [
                     "application/json"
@@ -81,6 +86,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "create product.",
                 "consumes": [
                     "application/json"
@@ -115,6 +125,11 @@ const docTemplate = `{
         },
         "/v1/api/product/{id}": {
             "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "Get one exists product.",
                 "consumes": [
                     "application/json"
@@ -145,6 +160,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "update one exists product.",
                 "consumes": [
                     "application/json"
@@ -184,6 +204,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "delete one exists product.",
                 "consumes": [
                     "application/json"
@@ -216,6 +241,11 @@ const docTemplate = `{
         },
         "/v1/api/transaction": {
             "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "Get all exists transaction.",
                 "consumes": [
                     "application/json"
@@ -237,6 +267,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "create transaction.",
                 "consumes": [
                     "application/json"
@@ -271,6 +306,11 @@ const docTemplate = `{
         },
         "/v1/api/transaction-detail/{id}": {
             "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "Get one exists transaction detail.",
                 "consumes": [
                     "application/json"
@@ -303,6 +343,11 @@ const docTemplate = `{
         },
         "/v1/api/transaction/{id}": {
             "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "Get one exists transaction.",
                 "consumes": [
                     "application/json"
@@ -333,6 +378,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "delete one exists transaction.",
                 "consumes": [
                     "application/json"
@@ -469,6 +519,14 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "JWT": {
+            "description": "Authorization For JWT",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

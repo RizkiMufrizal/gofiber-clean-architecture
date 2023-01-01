@@ -27,6 +27,7 @@ func (controller TransactionDetailController) Route(app *fiber.App) {
 // @Produce json
 // @Param id path string true "Transaction Detail Id"
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/transaction-detail/{id} [get]
 func (controller TransactionDetailController) FindById(c *fiber.Ctx) error {
 	id := c.Params("id")

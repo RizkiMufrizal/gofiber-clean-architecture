@@ -117,6 +117,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: get all exists products
       tags:
       - Product
@@ -138,6 +140,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: create product
       tags:
       - Product
@@ -159,6 +163,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: delete one exists product
       tags:
       - Product
@@ -179,6 +185,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: get one exists product
       tags:
       - Product
@@ -205,6 +213,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: update one exists product
       tags:
       - Product
@@ -220,6 +230,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: get all exists transaction
       tags:
       - Transaction
@@ -241,6 +253,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: create transaction
       tags:
       - Transaction
@@ -262,6 +276,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: get one exists transaction detail
       tags:
       - Transaction Detail
@@ -283,6 +299,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: delete one exists transaction
       tags:
       - Transaction
@@ -303,10 +321,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.GeneralResponse'
+      security:
+      - JWT: []
       summary: get one exists transaction
       tags:
       - Transaction
 schemes:
 - http
 - https
+securityDefinitions:
+  JWT:
+    description: Authorization For JWT
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

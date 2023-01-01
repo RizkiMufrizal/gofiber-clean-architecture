@@ -32,6 +32,7 @@ func (controller ProductController) Route(app *fiber.App) {
 // @Produce json
 // @Param request body model.ProductCreateOrUpdateModel true "Request Body"
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/product [post]
 func (controller ProductController) Create(c *fiber.Ctx) error {
 	var request model.ProductCreateOrUpdateModel
@@ -55,6 +56,7 @@ func (controller ProductController) Create(c *fiber.Ctx) error {
 // @Param request body model.ProductCreateOrUpdateModel true "Request Body"
 // @Param id path string true "Product Id"
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/product/{id} [put]
 func (controller ProductController) Update(c *fiber.Ctx) error {
 	var request model.ProductCreateOrUpdateModel
@@ -78,6 +80,7 @@ func (controller ProductController) Update(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Product Id"
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/product/{id} [delete]
 func (controller ProductController) Delete(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -97,6 +100,7 @@ func (controller ProductController) Delete(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Product Id"
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/product/{id} [get]
 func (controller ProductController) FindById(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -116,6 +120,7 @@ func (controller ProductController) FindById(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Success 200 {object} model.GeneralResponse
+// @Security JWT
 // @Router /v1/api/product [get]
 func (controller ProductController) FindAll(c *fiber.Ctx) error {
 	result := controller.ProductService.FindAll(c.Context())
