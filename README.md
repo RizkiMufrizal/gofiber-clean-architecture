@@ -18,6 +18,6 @@ This project was created to learn golang with go fiber framework
 - [x] Open API / Swagger
 - [ ] Integration Test
 - [ ] Http Client
-- [ ] Error Handling
+- [x] Error Handling
 - [ ] Logging
 - [ ] Cache
