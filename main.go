@@ -32,6 +32,7 @@ func main() {
 	//setup configuration
 	config := configuration.New()
 	database := configuration.NewDatabase(config)
+	redis := configuration.NewRedis(config)
 
 	//repository
 	productRepository := repository.NewProductRepositoryImpl(database)
@@ -40,7 +41,7 @@ func main() {
 	userRepository := repository.NewUserRepositoryImpl(database)
 
 	//service
-	productService := service.NewProductServiceImpl(&productRepository)
+	productService := service.NewProductServiceImpl(&productRepository, redis)
 	transactionService := service.NewTransactionServiceImpl(&transactionRepository)
 	transactionDetailService := service.NewTransactionDetailServiceImpl(&transactionDetailRepository)
 	userService := service.NewUserServiceImpl(&userRepository)

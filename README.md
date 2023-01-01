@@ -20,4 +20,4 @@ This project was created to learn golang with go fiber framework
 - [ ] Http Client
 - [x] Error Handling
 - [ ] Logging
-- [ ] Cache
+- [x] Cache

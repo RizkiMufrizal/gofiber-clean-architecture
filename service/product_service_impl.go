@@ -2,20 +2,24 @@ package service
 
 import (
 	"context"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/entity"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/validation"
+	"github.com/go-redis/cache/v8"
 	"github.com/google/uuid"
+	"github.com/mitchellh/mapstructure"
 )
 
-func NewProductServiceImpl(productRepository *repository.ProductRepository) ProductService {
-	return &productServiceImpl{ProductRepository: *productRepository}
+func NewProductServiceImpl(productRepository *repository.ProductRepository, cache *cache.Cache) ProductService {
+	return &productServiceImpl{ProductRepository: *productRepository, Cache: cache}
 }
 
 type productServiceImpl struct {
 	repository.ProductRepository
+	*cache.Cache
 }
 
 func (service *productServiceImpl) Create(ctx context.Context, productModel model.ProductCreateOrUpdateModel) model.ProductCreateOrUpdateModel {
@@ -52,12 +56,22 @@ func (service *productServiceImpl) Delete(ctx context.Context, id string) {
 }
 
 func (service *productServiceImpl) FindById(ctx context.Context, id string) model.ProductModel {
-	product, err := service.ProductRepository.FindById(ctx, id)
-	if err != nil {
-		panic(exception.NotFoundError{
-			Message: err.Error(),
-		})
+	var product entity.Product
+	productCache := configuration.GetCache(service.Cache, ctx, "product_"+id)
+	if productCache == nil {
+		productFindById, err := service.ProductRepository.FindById(ctx, id)
+		if err != nil {
+			panic(exception.NotFoundError{
+				Message: err.Error(),
+			})
+		}
+		configuration.SetCache(service.Cache, ctx, "product_"+id, &productFindById)
+		product = productFindById
+	} else {
+		err := mapstructure.Decode(productCache, &product)
+		exception.PanicLogging(err)
 	}
+
 	return model.ProductModel{
 		Id:       product.Id.String(),
 		Name:     product.Name,
