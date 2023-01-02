@@ -19,5 +19,5 @@ This project was created to learn golang with go fiber framework
 - [ ] Integration Test
 - [ ] Http Client
 - [x] Error Handling
-- [ ] Logging
+- [x] Logging
 - [x] Cache

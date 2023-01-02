@@ -18,6 +18,7 @@ func AuthenticateJWT(role string) func(*fiber.Ctx) error {
 			claims := user.Claims.(jwt.MapClaims)
 			roles := claims["roles"].([]interface{})
 
+			configuration.NewLogger().Info("role function ", role, " role user ", roles)
 			for _, roleInterface := range roles {
 				roleMap := roleInterface.(map[string]interface{})
 				if roleMap["role"] == role {
