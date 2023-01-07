@@ -8,12 +8,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func NewUserController(userService *service.UserService) *UserController {
-	return &UserController{UserService: *userService}
+func NewUserController(userService *service.UserService, config configuration.Config) *UserController {
+	return &UserController{UserService: *userService, Config: config}
 }
 
 type UserController struct {
 	service.UserService
+	configuration.Config
 }
 
 func (controller UserController) Route(app *fiber.App) {
@@ -41,7 +42,7 @@ func (controller UserController) Authentication(c *fiber.Ctx) error {
 			"role": userRole.Role,
 		})
 	}
-	tokenJwtResult := configuration.GenerateToken(result.Username, userRoles)
+	tokenJwtResult := configuration.GenerateToken(result.Username, userRoles, controller.Config)
 	resultWithToken := map[string]interface{}{
 		"token":    tokenJwtResult,
 		"username": result.Username,

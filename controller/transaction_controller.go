@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/middleware"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
@@ -10,17 +11,18 @@ import (
 
 type TransactionController struct {
 	service.TransactionService
+	configuration.Config
 }
 
-func NewTransactionController(transactionService *service.TransactionService) *TransactionController {
-	return &TransactionController{TransactionService: *transactionService}
+func NewTransactionController(transactionService *service.TransactionService, config configuration.Config) *TransactionController {
+	return &TransactionController{TransactionService: *transactionService, Config: config}
 }
 
 func (controller TransactionController) Route(app *fiber.App) {
-	app.Post("/v1/api/transaction", middleware.AuthenticateJWT("ROLE_USER"), controller.Create)
-	app.Delete("/v1/api/transaction/:id", middleware.AuthenticateJWT("ROLE_USER"), controller.Delete)
-	app.Get("/v1/api/transaction/:id", middleware.AuthenticateJWT("ROLE_USER"), controller.FindById)
-	app.Get("/v1/api/transaction", middleware.AuthenticateJWT("ROLE_USER"), controller.FindAll)
+	app.Post("/v1/api/transaction", middleware.AuthenticateJWT("ROLE_USER", controller.Config), controller.Create)
+	app.Delete("/v1/api/transaction/:id", middleware.AuthenticateJWT("ROLE_USER", controller.Config), controller.Delete)
+	app.Get("/v1/api/transaction/:id", middleware.AuthenticateJWT("ROLE_USER", controller.Config), controller.FindById)
+	app.Get("/v1/api/transaction", middleware.AuthenticateJWT("ROLE_USER", controller.Config), controller.FindAll)
 }
 
 // Create func create transaction.

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/middleware"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
@@ -10,18 +11,19 @@ import (
 
 type ProductController struct {
 	service.ProductService
+	configuration.Config
 }
 
-func NewProductController(productService *service.ProductService) *ProductController {
-	return &ProductController{ProductService: *productService}
+func NewProductController(productService *service.ProductService, config configuration.Config) *ProductController {
+	return &ProductController{ProductService: *productService, Config: config}
 }
 
 func (controller ProductController) Route(app *fiber.App) {
-	app.Post("/v1/api/product", middleware.AuthenticateJWT("ROLE_ADMIN"), controller.Create)
-	app.Put("/v1/api/product/:id", middleware.AuthenticateJWT("ROLE_ADMIN"), controller.Update)
-	app.Delete("/v1/api/product/:id", middleware.AuthenticateJWT("ROLE_ADMIN"), controller.Delete)
-	app.Get("/v1/api/product/:id", middleware.AuthenticateJWT("ROLE_ADMIN"), controller.FindById)
-	app.Get("/v1/api/product", middleware.AuthenticateJWT("ROLE_ADMIN"), controller.FindAll)
+	app.Post("/v1/api/product", middleware.AuthenticateJWT("ROLE_ADMIN", controller.Config), controller.Create)
+	app.Put("/v1/api/product/:id", middleware.AuthenticateJWT("ROLE_ADMIN", controller.Config), controller.Update)
+	app.Delete("/v1/api/product/:id", middleware.AuthenticateJWT("ROLE_ADMIN", controller.Config), controller.Delete)
+	app.Get("/v1/api/product/:id", middleware.AuthenticateJWT("ROLE_ADMIN", controller.Config), controller.FindById)
+	app.Get("/v1/api/product", middleware.AuthenticateJWT("ROLE_ADMIN", controller.Config), controller.FindAll)
 }
 
 // Create func create product.

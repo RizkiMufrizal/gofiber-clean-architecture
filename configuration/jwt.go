@@ -7,8 +7,7 @@ import (
 	"time"
 )
 
-func GenerateToken(username string, roles []map[string]interface{}) string {
-	config := New()
+func GenerateToken(username string, roles []map[string]interface{}, config Config) string {
 	jwtSecret := config.Get("JWT_SECRET_KEY")
 	jwtExpired, err := strconv.Atoi(config.Get("JWT_EXPIRE_MINUTES_COUNT"))
 	exception.PanicLogging(err)

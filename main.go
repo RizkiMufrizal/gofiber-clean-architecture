@@ -47,10 +47,10 @@ func main() {
 	userService := service.NewUserServiceImpl(&userRepository)
 
 	//controller
-	productController := controller.NewProductController(&productService)
-	transactionController := controller.NewTransactionController(&transactionService)
-	transactionDetailController := controller.NewTransactionDetailController(&transactionDetailService)
-	userController := controller.NewUserController(&userService)
+	productController := controller.NewProductController(&productService, config)
+	transactionController := controller.NewTransactionController(&transactionService, config)
+	transactionDetailController := controller.NewTransactionDetailController(&transactionDetailService, config)
+	userController := controller.NewUserController(&userService, config)
 
 	//setup fiber
 	app := fiber.New(configuration.NewFiberConfiguration())

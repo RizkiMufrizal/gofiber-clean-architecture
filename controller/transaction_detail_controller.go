@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/middleware"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
@@ -9,14 +10,15 @@ import (
 
 type TransactionDetailController struct {
 	service.TransactionDetailService
+	configuration.Config
 }
 
-func NewTransactionDetailController(transactionDetailService *service.TransactionDetailService) *TransactionDetailController {
-	return &TransactionDetailController{TransactionDetailService: *transactionDetailService}
+func NewTransactionDetailController(transactionDetailService *service.TransactionDetailService, config configuration.Config) *TransactionDetailController {
+	return &TransactionDetailController{TransactionDetailService: *transactionDetailService, Config: config}
 }
 
 func (controller TransactionDetailController) Route(app *fiber.App) {
-	app.Get("/v1/api/transaction-detail/:id", middleware.AuthenticateJWT("ROLE_USER"), controller.FindById)
+	app.Get("/v1/api/transaction-detail/:id", middleware.AuthenticateJWT("ROLE_USER", controller.Config), controller.FindById)
 }
 
 // FindById func gets one exists transaction detail.

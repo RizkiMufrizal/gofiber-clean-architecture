@@ -16,8 +16,9 @@ This project was created to learn golang with go fiber framework
 - [ ] Database migration
 - [x] Docker Support
 - [x] Open API / Swagger
-- [ ] Integration Test
+- [x] Integration Test
 - [ ] Http Client
 - [x] Error Handling
 - [x] Logging
 - [x] Cache
+- [ ] Kafka

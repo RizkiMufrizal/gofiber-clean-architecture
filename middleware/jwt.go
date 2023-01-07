@@ -8,8 +8,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func AuthenticateJWT(role string) func(*fiber.Ctx) error {
-	config := configuration.New()
+func AuthenticateJWT(role string, config configuration.Config) func(*fiber.Ctx) error {
 	jwtSecret := config.Get("JWT_SECRET_KEY")
 	return jwtware.New(jwtware.Config{
 		SigningKey: []byte(jwtSecret),

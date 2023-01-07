@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/entity"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -13,6 +15,30 @@ func NewUserRepositoryImpl(DB *gorm.DB) UserRepository {
 
 type userRepositoryImpl struct {
 	*gorm.DB
+}
+
+func (userRepository *userRepositoryImpl) Create(username string, password string, roles []string) {
+	var userRoles []entity.UserRole
+	for _, role := range roles {
+		userRoles = append(userRoles, entity.UserRole{
+			Id:       uuid.New(),
+			Username: username,
+			Role:     role,
+		})
+	}
+	user := entity.User{
+		Username:  username,
+		Password:  password,
+		IsActive:  true,
+		UserRoles: userRoles,
+	}
+	err := userRepository.DB.Create(&user).Error
+	exception.PanicLogging(err)
+}
+
+func (userRepository *userRepositoryImpl) DeleteAll() {
+	err := userRepository.DB.Where("1=1").Delete(&entity.User{}).Error
+	exception.PanicLogging(err)
 }
 
 func (userRepository *userRepositoryImpl) Authentication(ctx context.Context, username string) (entity.User, error) {
