@@ -2,13 +2,13 @@ package configuration
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
-	"github.com/go-redis/cache/v8"
-	"github.com/go-redis/redis/v8"
+	"github.com/go-redis/redis/v9"
 	"strconv"
 )
 
-func NewRedis(config Config) *cache.Cache {
+func NewRedis(config Config) *redis.Client {
 	host := config.Get("REDIS_HOST")
 	port := config.Get("REDIS_PORT")
 	maxPoolSize, err := strconv.Atoi(config.Get("REDIS_POOL_MAX_SIZE"))
@@ -20,28 +20,29 @@ func NewRedis(config Config) *cache.Cache {
 		PoolSize:     maxPoolSize,
 		MinIdleConns: minIdlePoolSize,
 	})
-
-	cacheManager := cache.New(&cache.Options{
-		Redis: redisStore,
-	})
-
-	return cacheManager
+	return redisStore
 }
 
-func SetCache(cacheManager *cache.Cache, ctx context.Context, key string, value interface{}) {
-	if err := cacheManager.Set(&cache.Item{
-		Ctx:   ctx,
-		Key:   key,
-		Value: value,
-	}); err != nil {
+func SetCache[T any](cacheManager *redis.Client, ctx context.Context, prefix string, key string, executeData func(context.Context, string) (T, error)) *T {
+	var data []byte
+	var object T
+	if err := cacheManager.Get(ctx, prefix+"_"+key).Scan(&data); err == nil {
+		err := json.Unmarshal(data, &object)
+		exception.PanicLogging(err)
+
+		return &object
+	}
+	value, err := executeData(ctx, key)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	cacheValue, err := json.Marshal(value)
+	exception.PanicLogging(err)
+
+	if err := cacheManager.Set(ctx, prefix+"_"+key, cacheValue, -1).Err(); err != nil {
 		exception.PanicLogging(err)
 	}
-}
-
-func GetCache(cacheManager *cache.Cache, ctx context.Context, key string) interface{} {
-	var object interface{}
-	if err := cacheManager.Get(ctx, key, &object); err == nil {
-		return object
-	}
-	return nil
+	return &value
 }

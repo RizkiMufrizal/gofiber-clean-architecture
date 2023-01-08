@@ -8,18 +8,17 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/validation"
-	"github.com/go-redis/cache/v8"
+	"github.com/go-redis/redis/v9"
 	"github.com/google/uuid"
-	"github.com/mitchellh/mapstructure"
 )
 
-func NewProductServiceImpl(productRepository *repository.ProductRepository, cache *cache.Cache) ProductService {
+func NewProductServiceImpl(productRepository *repository.ProductRepository, cache *redis.Client) ProductService {
 	return &productServiceImpl{ProductRepository: *productRepository, Cache: cache}
 }
 
 type productServiceImpl struct {
 	repository.ProductRepository
-	*cache.Cache
+	Cache *redis.Client
 }
 
 func (service *productServiceImpl) Create(ctx context.Context, productModel model.ProductCreateOrUpdateModel) model.ProductCreateOrUpdateModel {
@@ -56,27 +55,12 @@ func (service *productServiceImpl) Delete(ctx context.Context, id string) {
 }
 
 func (service *productServiceImpl) FindById(ctx context.Context, id string) model.ProductModel {
-	var product entity.Product
-	productCache := configuration.GetCache(service.Cache, ctx, "product_"+id)
-	if productCache == nil {
-		productFindById, err := service.ProductRepository.FindById(ctx, id)
-		if err != nil {
-			panic(exception.NotFoundError{
-				Message: err.Error(),
-			})
-		}
-		configuration.SetCache(service.Cache, ctx, "product_"+id, &productFindById)
-		product = productFindById
-	} else {
-		err := mapstructure.Decode(productCache, &product)
-		exception.PanicLogging(err)
-	}
-
+	productCache := configuration.SetCache[entity.Product](service.Cache, ctx, "product", id, service.ProductRepository.FindById)
 	return model.ProductModel{
-		Id:       product.Id.String(),
-		Name:     product.Name,
-		Price:    product.Price,
-		Quantity: product.Quantity,
+		Id:       productCache.Id.String(),
+		Name:     productCache.Name,
+		Price:    productCache.Price,
+		Quantity: productCache.Quantity,
 	}
 }
 
