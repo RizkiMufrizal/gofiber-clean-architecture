@@ -17,7 +17,7 @@ This project was created to learn golang with go fiber framework
 - [x] Docker Support
 - [x] Open API / Swagger
 - [x] Integration Test
-- [ ] Http Client
+- [x] Http Client
 - [x] Error Handling
 - [x] Logging
 - [x] Cache

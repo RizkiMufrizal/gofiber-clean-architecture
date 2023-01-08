@@ -3,6 +3,7 @@ package configuration
 import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/sirupsen/logrus"
+	"io"
 	"os"
 	"time"
 )
@@ -23,10 +24,11 @@ func NewLogger() *logrus.Logger {
 	}
 
 	date := time.Now()
-	file, err := os.OpenFile("logs/log_"+date.Format("01-02-2006_15")+".log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
+	logFile, err := os.OpenFile("logs/log_"+date.Format("01-02-2006_15")+".log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 	exception.PanicLogging(err)
 	if err == nil {
-		logger.SetOutput(file)
+		multiWriter := io.MultiWriter(os.Stdout, logFile)
+		logger.SetOutput(multiWriter)
 	}
 	return logger
 }

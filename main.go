@@ -45,12 +45,14 @@ func main() {
 	transactionService := service.NewTransactionServiceImpl(&transactionRepository)
 	transactionDetailService := service.NewTransactionDetailServiceImpl(&transactionDetailRepository)
 	userService := service.NewUserServiceImpl(&userRepository)
+	httpBinService := service.NewHttpBinServiceImpl()
 
 	//controller
 	productController := controller.NewProductController(&productService, config)
 	transactionController := controller.NewTransactionController(&transactionService, config)
 	transactionDetailController := controller.NewTransactionDetailController(&transactionDetailService, config)
 	userController := controller.NewUserController(&userService, config)
+	httpBinController := controller.NewHttpBinController(&httpBinService)
 
 	//setup fiber
 	app := fiber.New(configuration.NewFiberConfiguration())
@@ -62,6 +64,7 @@ func main() {
 	transactionController.Route(app)
 	transactionDetailController.Route(app)
 	userController.Route(app)
+	httpBinController.Route(app)
 
 	//swagger
 	app.Get("/swagger/*", swagger.HandlerDefault)

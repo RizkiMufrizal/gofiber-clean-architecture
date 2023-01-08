@@ -25,11 +25,11 @@ type ClientComponent[T any, E any] struct {
 	ConnectTimeout uint32
 	ActiveTimeout  uint32
 	Headers        []HttpHeader
-	RequestBody    T
+	RequestBody    *T
 	ResponseBody   *E
 }
 
-func (c *ClientComponent[T, E]) execute(ctx context.Context) error {
+func (c *ClientComponent[T, E]) Execute(ctx context.Context) error {
 
 	client := &http.Client{
 		Timeout: time.Duration(rand.Int31n(int32(c.ActiveTimeout))) * time.Millisecond,
@@ -54,7 +54,7 @@ func (c *ClientComponent[T, E]) execute(ctx context.Context) error {
 		exception.PanicLogging(err)
 
 		//logging request body
-		NewLogger().Info("Request Body %s", string(requestBody))
+		NewLogger().Info("Request Body ", string(requestBody))
 
 		requestBodyByte := bytes.NewBuffer(requestBody)
 
@@ -69,9 +69,9 @@ func (c *ClientComponent[T, E]) execute(ctx context.Context) error {
 	}
 
 	//logging before
-	NewLogger().Info("Request Url %s", c.UrlApi)
-	NewLogger().Info("Request Method %s", c.HttpMethod)
-	NewLogger().Info("Request Header %s", request.Header)
+	NewLogger().Info("Request Url ", c.UrlApi)
+	NewLogger().Info("Request Method ", c.HttpMethod)
+	NewLogger().Info("Request Header ", request.Header)
 
 	//time
 	start := time.Now()
@@ -83,7 +83,7 @@ func (c *ClientComponent[T, E]) execute(ctx context.Context) error {
 	}
 
 	//time
-	elapsed := time.Since(start)
+	elapsed := time.Now().Sub(start)
 
 	responseBody, err := io.ReadAll(response.Body)
 	exception.PanicLogging(err)
@@ -91,11 +91,11 @@ func (c *ClientComponent[T, E]) execute(ctx context.Context) error {
 	err = json.Unmarshal(responseBody, &c.ResponseBody)
 	exception.PanicLogging(err)
 
-	NewLogger().Info("Received response for %s in %s ms", c.UrlApi, elapsed)
-	NewLogger().Info("Response Header %s", response.Header)
-	NewLogger().Info("Response Http Status %s", response.Status)
-	NewLogger().Info("Response Http Version %s", response.Proto)
-	NewLogger().Info("Response Body %s", string(responseBody))
+	NewLogger().Info("Received response for ", c.UrlApi, " in ", elapsed.Milliseconds(), " ms")
+	NewLogger().Info("Response Header ", response.Header)
+	NewLogger().Info("Response Http Status ", response.Status)
+	NewLogger().Info("Response Http Version ", response.Proto)
+	NewLogger().Info("Response Body ", string(responseBody))
 
 	return nil
 }
