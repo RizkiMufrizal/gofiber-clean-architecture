@@ -2,13 +2,13 @@ package impl
 
 import (
 	"context"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/common"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/entity"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
-	"github.com/RizkiMufrizal/gofiber-clean-architecture/validation"
 	"github.com/go-redis/redis/v9"
 	"github.com/google/uuid"
 )
@@ -23,7 +23,7 @@ type productServiceImpl struct {
 }
 
 func (service *productServiceImpl) Create(ctx context.Context, productModel model.ProductCreateOrUpdateModel) model.ProductCreateOrUpdateModel {
-	validation.Validate(productModel)
+	common.Validate(productModel)
 	product := entity.Product{
 		Name:     productModel.Name,
 		Price:    productModel.Price,
@@ -34,7 +34,7 @@ func (service *productServiceImpl) Create(ctx context.Context, productModel mode
 }
 
 func (service *productServiceImpl) Update(ctx context.Context, productModel model.ProductCreateOrUpdateModel, id string) model.ProductCreateOrUpdateModel {
-	validation.Validate(productModel)
+	common.Validate(productModel)
 	product := entity.Product{
 		Id:       uuid.MustParse(id),
 		Name:     productModel.Name,

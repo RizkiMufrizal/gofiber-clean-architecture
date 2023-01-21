@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/common"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
@@ -42,7 +43,7 @@ func (controller UserController) Authentication(c *fiber.Ctx) error {
 			"role": userRole.Role,
 		})
 	}
-	tokenJwtResult := configuration.GenerateToken(result.Username, userRoles, controller.Config)
+	tokenJwtResult := common.GenerateToken(result.Username, userRoles, controller.Config)
 	resultWithToken := map[string]interface{}{
 		"token":    tokenJwtResult,
 		"username": result.Username,

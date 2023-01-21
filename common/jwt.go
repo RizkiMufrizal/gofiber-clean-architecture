@@ -1,13 +1,14 @@
-package configuration
+package common
 
 import (
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/golang-jwt/jwt/v4"
 	"strconv"
 	"time"
 )
 
-func GenerateToken(username string, roles []map[string]interface{}, config Config) string {
+func GenerateToken(username string, roles []map[string]interface{}, config configuration.Config) string {
 	jwtSecret := config.Get("JWT_SECRET_KEY")
 	jwtExpired, err := strconv.Atoi(config.Get("JWT_EXPIRE_MINUTES_COUNT"))
 	exception.PanicLogging(err)

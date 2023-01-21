@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/common"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/gofiber/fiber/v2"
@@ -17,7 +18,7 @@ func AuthenticateJWT(role string, config configuration.Config) func(*fiber.Ctx) 
 			claims := user.Claims.(jwt.MapClaims)
 			roles := claims["roles"].([]interface{})
 
-			configuration.NewLogger().Info("role function ", role, " role user ", roles)
+			common.NewLogger().Info("role function ", role, " role user ", roles)
 			for _, roleInterface := range roles {
 				roleMap := roleInterface.(map[string]interface{})
 				if roleMap["role"] == role {

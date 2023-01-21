@@ -1,4 +1,4 @@
-package validation
+package common
 
 import (
 	"encoding/json"

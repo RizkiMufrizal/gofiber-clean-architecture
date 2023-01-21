@@ -1,4 +1,4 @@
-package configuration
+package common
 
 import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"

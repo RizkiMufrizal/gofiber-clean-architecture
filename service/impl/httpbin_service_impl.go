@@ -3,7 +3,7 @@ package impl
 import (
 	"context"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/client"
-	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/common"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
 )
@@ -22,5 +22,5 @@ func (h *httpBinServiceImpl) PostMethod(ctx context.Context) {
 	}
 	var response map[string]interface{}
 	h.HttpBinClient.PostMethod(ctx, &httpBin, &response)
-	configuration.NewLogger().Info("log response service ", response)
+	common.NewLogger().Info("log response service ", response)
 }

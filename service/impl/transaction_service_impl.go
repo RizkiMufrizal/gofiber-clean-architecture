@@ -2,12 +2,12 @@ package impl
 
 import (
 	"context"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/common"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/entity"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
-	"github.com/RizkiMufrizal/gofiber-clean-architecture/validation"
 	"github.com/google/uuid"
 )
 
@@ -20,7 +20,7 @@ type transactionServiceImpl struct {
 }
 
 func (transactionService *transactionServiceImpl) Create(ctx context.Context, transactionModel model.TransactionCreateUpdateModel) model.TransactionCreateUpdateModel {
-	validation.Validate(transactionModel)
+	common.Validate(transactionModel)
 	uuidGenerate := uuid.New()
 	var transactionDetails []entity.TransactionDetail
 	var totalPrice int64 = 0
