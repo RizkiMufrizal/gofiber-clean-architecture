@@ -41,7 +41,7 @@ func (controller TransactionController) Create(c *fiber.Ctx) error {
 	exception.PanicLogging(err)
 
 	response := controller.TransactionService.Create(c.Context(), request)
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusCreated).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    response,
@@ -62,7 +62,7 @@ func (controller TransactionController) Delete(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	controller.TransactionService.Delete(c.Context(), id)
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 	})
@@ -82,7 +82,7 @@ func (controller TransactionController) FindById(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	result := controller.TransactionService.FindById(c.Context(), id)
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    result,
@@ -100,7 +100,7 @@ func (controller TransactionController) FindById(c *fiber.Ctx) error {
 // @Router /v1/api/transaction [get]
 func (controller TransactionController) FindAll(c *fiber.Ctx) error {
 	result := controller.TransactionService.FindAll(c.Context())
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    result,

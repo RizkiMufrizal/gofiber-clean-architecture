@@ -48,7 +48,7 @@ func (controller UserController) Authentication(c *fiber.Ctx) error {
 		"username": result.Username,
 		"role":     userRoles,
 	}
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    resultWithToken,

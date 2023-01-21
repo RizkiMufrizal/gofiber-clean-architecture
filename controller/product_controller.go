@@ -42,7 +42,7 @@ func (controller ProductController) Create(c *fiber.Ctx) error {
 	exception.PanicLogging(err)
 
 	response := controller.ProductService.Create(c.Context(), request)
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusCreated).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    response,
@@ -67,7 +67,7 @@ func (controller ProductController) Update(c *fiber.Ctx) error {
 	exception.PanicLogging(err)
 
 	response := controller.ProductService.Update(c.Context(), request, id)
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    response,
@@ -88,7 +88,7 @@ func (controller ProductController) Delete(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	controller.ProductService.Delete(c.Context(), id)
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 	})
@@ -108,7 +108,7 @@ func (controller ProductController) FindById(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	result := controller.ProductService.FindById(c.Context(), id)
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    result,
@@ -126,7 +126,7 @@ func (controller ProductController) FindById(c *fiber.Ctx) error {
 // @Router /v1/api/product [get]
 func (controller ProductController) FindAll(c *fiber.Ctx) error {
 	result := controller.ProductService.FindAll(c.Context())
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    result,

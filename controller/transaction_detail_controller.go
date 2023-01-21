@@ -35,7 +35,7 @@ func (controller TransactionDetailController) FindById(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	result := controller.TransactionDetailService.FindById(c.Context(), id)
-	return c.JSON(model.GeneralResponse{
+	return c.Status(fiber.StatusOK).JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
 		Data:    result,
