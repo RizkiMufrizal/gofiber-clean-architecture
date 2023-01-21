@@ -22,4 +22,3 @@ This project was created to learn golang with go fiber framework
 - [x] Error Handling
 - [x] Logging
 - [x] Cache
-- [ ] Kafka
