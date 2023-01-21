@@ -20,7 +20,7 @@ func (controller HttpBinController) Route(app *fiber.App) {
 
 func (controller HttpBinController) PostHttpBin(c *fiber.Ctx) error {
 
-	controller.PostMethod(c.Context())
+	controller.HttpBinService.PostMethod(c.Context())
 	return c.JSON(model.GeneralResponse{
 		Code:    200,
 		Message: "Success",
