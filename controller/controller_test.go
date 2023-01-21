@@ -6,8 +6,8 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
-	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
-	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository/impl"
+	impl2 "github.com/RizkiMufrizal/gofiber-clean-architecture/service/impl"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -37,16 +37,16 @@ var database = configuration.NewDatabase(config)
 var redis = configuration.NewRedis(config)
 
 // repository
-var productRepository = repository.NewProductRepositoryImpl(database)
-var transactionRepository = repository.NewTransactionRepositoryImpl(database)
-var transactionDetailRepository = repository.NewTransactionDetailRepositoryImpl(database)
-var userRepository = repository.NewUserRepositoryImpl(database)
+var productRepository = impl.NewProductRepositoryImpl(database)
+var transactionRepository = impl.NewTransactionRepositoryImpl(database)
+var transactionDetailRepository = impl.NewTransactionDetailRepositoryImpl(database)
+var userRepository = impl.NewUserRepositoryImpl(database)
 
 // service
-var productService = service.NewProductServiceImpl(&productRepository, redis)
-var transactionService = service.NewTransactionServiceImpl(&transactionRepository)
-var transactionDetailService = service.NewTransactionDetailServiceImpl(&transactionDetailRepository)
-var userService = service.NewUserServiceImpl(&userRepository)
+var productService = impl2.NewProductServiceImpl(&productRepository, redis)
+var transactionService = impl2.NewTransactionServiceImpl(&transactionRepository)
+var transactionDetailService = impl2.NewTransactionDetailServiceImpl(&transactionDetailRepository)
+var userService = impl2.NewUserServiceImpl(&userRepository)
 
 // controller
 var productController = NewProductController(&productService, config)

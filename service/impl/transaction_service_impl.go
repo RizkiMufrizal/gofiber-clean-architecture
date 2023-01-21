@@ -1,4 +1,4 @@
-package service
+package impl
 
 import (
 	"context"
@@ -6,11 +6,12 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/validation"
 	"github.com/google/uuid"
 )
 
-func NewTransactionServiceImpl(transactionRepository *repository.TransactionRepository) TransactionService {
+func NewTransactionServiceImpl(transactionRepository *repository.TransactionRepository) service.TransactionService {
 	return &transactionServiceImpl{TransactionRepository: *transactionRepository}
 }
 

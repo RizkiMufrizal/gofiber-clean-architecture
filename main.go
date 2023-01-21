@@ -1,12 +1,13 @@
 package main
 
 import (
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/client/restclient"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/controller"
 	_ "github.com/RizkiMufrizal/gofiber-clean-architecture/docs"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
-	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
-	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
+	repository "github.com/RizkiMufrizal/gofiber-clean-architecture/repository/impl"
+	service "github.com/RizkiMufrizal/gofiber-clean-architecture/service/impl"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -40,12 +41,15 @@ func main() {
 	transactionDetailRepository := repository.NewTransactionDetailRepositoryImpl(database)
 	userRepository := repository.NewUserRepositoryImpl(database)
 
+	//rest client
+	httpBinRestClient := restclient.NewHttpBinRestClient()
+
 	//service
 	productService := service.NewProductServiceImpl(&productRepository, redis)
 	transactionService := service.NewTransactionServiceImpl(&transactionRepository)
 	transactionDetailService := service.NewTransactionDetailServiceImpl(&transactionDetailRepository)
 	userService := service.NewUserServiceImpl(&userRepository)
-	httpBinService := service.NewHttpBinServiceImpl()
+	httpBinService := service.NewHttpBinServiceImpl(&httpBinRestClient)
 
 	//controller
 	productController := controller.NewProductController(&productService, config)

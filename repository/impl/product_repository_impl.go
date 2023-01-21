@@ -1,15 +1,16 @@
-package repository
+package impl
 
 import (
 	"context"
 	"errors"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/entity"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
-func NewProductRepositoryImpl(DB *gorm.DB) ProductRepository {
+func NewProductRepositoryImpl(DB *gorm.DB) repository.ProductRepository {
 	return &productRepositoryImpl{DB: DB}
 }
 

@@ -2,12 +2,13 @@ package restclient
 
 import (
 	"context"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/client"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 )
 
-func NewHttpBinRestClient() *HttpBinRestClient {
+func NewHttpBinRestClient() client.HttpBinClient {
 	return &HttpBinRestClient{}
 }
 

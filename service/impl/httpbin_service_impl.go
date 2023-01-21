@@ -1,25 +1,26 @@
-package service
+package impl
 
 import (
 	"context"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/client"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/configuration"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
-	"github.com/RizkiMufrizal/gofiber-clean-architecture/restclient"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
 )
 
-func NewHttpBinServiceImpl() HttpBinService {
-	return &httpBinServiceImpl{}
+func NewHttpBinServiceImpl(httpBinClient *client.HttpBinClient) service.HttpBinService {
+	return &httpBinServiceImpl{HttpBinClient: *httpBinClient}
 }
 
 type httpBinServiceImpl struct {
+	client.HttpBinClient
 }
 
 func (h *httpBinServiceImpl) PostMethod(ctx context.Context) {
-	httpbinRestClient := restclient.NewHttpBinRestClient()
 	httpBin := model.HttpBin{
 		Name: "rizki",
 	}
 	var response map[string]interface{}
-	httpbinRestClient.PostMethod(ctx, &httpBin, &response)
+	h.HttpBinClient.PostMethod(ctx, &httpBin, &response)
 	configuration.NewLogger().Info("log response service ", response)
 }

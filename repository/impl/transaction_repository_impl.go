@@ -1,14 +1,15 @@
-package repository
+package impl
 
 import (
 	"context"
 	"errors"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/entity"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
 	"gorm.io/gorm"
 )
 
-func NewTransactionRepositoryImpl(DB *gorm.DB) TransactionRepository {
+func NewTransactionRepositoryImpl(DB *gorm.DB) repository.TransactionRepository {
 	return &transactionRepositoryImpl{DB: DB}
 }
 

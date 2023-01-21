@@ -1,4 +1,4 @@
-package service
+package impl
 
 import (
 	"context"
@@ -7,12 +7,13 @@ import (
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/exception"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/model"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/repository"
+	"github.com/RizkiMufrizal/gofiber-clean-architecture/service"
 	"github.com/RizkiMufrizal/gofiber-clean-architecture/validation"
 	"github.com/go-redis/redis/v9"
 	"github.com/google/uuid"
 )
 
-func NewProductServiceImpl(productRepository *repository.ProductRepository, cache *redis.Client) ProductService {
+func NewProductServiceImpl(productRepository *repository.ProductRepository, cache *redis.Client) service.ProductService {
 	return &productServiceImpl{ProductRepository: *productRepository, Cache: cache}
 }
 
