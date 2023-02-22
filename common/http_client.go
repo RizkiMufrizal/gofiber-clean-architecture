@@ -36,9 +36,9 @@ func (c *ClientComponent[T, E]) Execute(ctx context.Context) error {
 		Transport: &http.Transport{
 			TLSClientConfig:     &tls.Config{InsecureSkipVerify: true},
 			TLSHandshakeTimeout: 5 * time.Second,
-			DialContext: (&net.Dialer{
-				Timeout: time.Duration(rand.Int31n(int32(c.ConnectTimeout))) * time.Millisecond,
-			}).DialContext,
+			DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
+				return net.DialTimeout(network, addr, time.Duration(rand.Int31n(int32(c.ConnectTimeout)))*time.Millisecond)
+			},
 		},
 	}
 
